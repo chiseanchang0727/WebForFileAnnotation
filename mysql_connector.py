@@ -22,7 +22,7 @@ class MySqlConnector:
             engine_url = f"mysql+mysqlconnector://{self.userN}:{self.password}@{self.host}/{self.database}"
             self.engine = create_engine(engine_url)
             self.connection = self.engine.connect()
-            print("Connected to MySQL database using SQLAlchemy")
+            # print("Connected to MySQL database using SQLAlchemy")
         except SQLAlchemyError as e:
             print("Error while connecting to MySQL:", e)
         

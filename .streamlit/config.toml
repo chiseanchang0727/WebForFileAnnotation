@@ -1,7 +1,11 @@
 [theme]
-base="light"
+base="dark"
 primaryColor="#FF4A00"
-backgroundColor="#FFFFFF"
-secondaryBackgroundColor="#DAD8D8"
-textColor="#353434"
+backgroundColor="#0E1117"
+secondaryBackgroundColor="#262730"
+textColor="#FAFAFA"
 
+[server]
+enableCORS = false
+enableXsrfProtection = false
+port = 8501
