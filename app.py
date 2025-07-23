@@ -1,13 +1,13 @@
 
 import fitz
 import streamlit as st
-from file_functions.submit_api import submit, file_upload,GetFile,fetch_pdf_by_name,latestPage
+from file_functions.submit_api import submit, file_upload, GetFile, fetch_pdf_by_name, latestPage
 from file_functions.prev_record import get_previous_record
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 import pandas as pd
 
 
-st.set_page_config(page_title="WSP File Uploader", layout="wide")
+st.set_page_config(page_title="Data Annotation Tool", layout="wide")
 
 # ---- SESSION STATE ----
 if "page" not in st.session_state:
@@ -21,7 +21,7 @@ if "df" not in st.session_state:
 if st.session_state.page == "front":
     
     st.image("asset/wsplogo.png", width=300) #put your own file path of the logo here 
-    st.title("WSP File Uploader")
+    st.title("Data Annotation Tool")
     st.markdown("---")
     st.subheader("Search Your Files")
     col1= st.columns(1)[0]
@@ -103,11 +103,15 @@ if st.session_state.page == "upload":
 # ---- PAGE 2: VIEW & ANNOTATE ----
 
 elif st.session_state.page == "view":
-    #TODO: scroll 
+
     st.header(f"Viewing: {st.session_state.pdf_name}")
 
     if st.button("Back to Main"):
             st.session_state.page = "front"
+            st.session_state.show_update_warning = False
+            st.session_state.current_page = 1
+            st.session_state.pdf_name = None
+            st.session_state.pdf_bytes = None
             st.rerun()
 
     # open with fitz
