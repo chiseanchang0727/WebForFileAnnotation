@@ -26,13 +26,19 @@ if st.session_state.page == "front":
     st.subheader("Search Your Files")
     col1= st.columns(1)[0]
     with col1:
-        user_name = st.text_input("Enter your full name here:",width= 300)
+        user_name = st.text_input(
+            "Enter your full name here:", 
+            value=st.session_state.get("uploader_name", ""), 
+            key="user_name_input", 
+            width=300
+        )
     # with col2:
     #     last_name = st.text_input("Last Name")
     if st.button("Search"):
         #TODO: fix GetFile to only read file_name and author at the tabl, otherwise it will takes 10 decades to load 
         st.session_state.df = GetFile(user_name)
         st.session_state.last_search = user_name
+        st.session_state.uploader_name = user_name 
 
     # Pull df out of session_state so it's available on every run:
     df = st.session_state.df
@@ -86,7 +92,11 @@ if st.session_state.page == "upload":
     uploaded = st.file_uploader("PDF File upload button", type=["pdf"])
     col1 = st.columns(1)[0]  # Get the first column for author input
     with col1:
-        author = st.text_input("Uploader Name", placeholder="Enter your name here:")
+        author = st.text_input(
+            "Uploader Name", 
+            placeholder="Enter your name here:", 
+            value=st.session_state.get("uploader_name", "")
+        )
 
     if uploaded and author:
         if "file_uploaded" not in st.session_state or st.session_state.pdf_name != uploaded.name:
@@ -107,12 +117,18 @@ elif st.session_state.page == "view":
     st.header(f"Viewing: {st.session_state.pdf_name}")
 
     if st.button("Back to Main"):
-            st.session_state.page = "front"
-            st.session_state.show_update_warning = False
-            st.session_state.current_page = 1
-            st.session_state.pdf_name = None
-            st.session_state.pdf_bytes = None
-            st.rerun()
+        keys_to_clear = [
+            "page",
+            "show_update_warning",
+            "current_page",
+            "pdf_name",
+            "pdf_bytes",
+            "df"
+        ]
+        for key in keys_to_clear:
+            if key in st.session_state:
+                del st.session_state[key]
+        st.rerun()
 
     # open with fitz
     pdf_doc = fitz.open(stream=st.session_state.pdf_bytes, filetype="pdf")
@@ -151,7 +167,7 @@ elif st.session_state.page == "view":
         desc = st.text_area("Description for this page", height=500)
     with author:
         # author_name = st.text_input("Author Name", placeholder="Enter author name:")
-        author_name = st.text_area("Author Name", height=70)
+        author_name = st.text_area("Author Name", value=st.session_state.get("uploader_name", ""), height=70)
         if st.session_state.get("show_update_warning", False):
             st.markdown(f"**Previous Record:** {checker['description'].values[0]}")
             prev_author = checker['author'].values[0]

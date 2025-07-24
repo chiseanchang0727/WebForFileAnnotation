@@ -6,7 +6,6 @@ import pandas as pd
 import os
 load_dotenv()
 
-
 connector = MySqlConnector(
     host=os.getenv("MYSQL_HOST"),
     database=os.getenv("MYSQL_DATABASE"),

@@ -1,4 +1,4 @@
-# WSP Taipei Internship Project: File Uploading & Annotation Platform
+# Data Annotation Tool
 
 This web-based platform allows users to:
 
@@ -9,6 +9,7 @@ All activities are recorded and stored in a **MySQL** database, forming a struct
 
 # Run locally
 
-Version 1:
+- `streamlit run app.py`
 
-- `streamlit run .streamlit/wsp.py`
+# Co-author
+- `louisvcarpet`
